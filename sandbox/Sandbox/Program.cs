@@ -29,14 +29,10 @@ string h = $"Hello {z+f+s+value} {g} {b} World!";
         Console.Write("Enter radius of circle: ");
         string radius = Console.ReadLine();
         double r = double.Parse(radius);
-        //compute area of circle
+        //compute area of circle from user provided radius
         double area = Math.PI * r * r;
         //display area of circle
         Console.WriteLine($"Area of circle with radius {r} is {area}");
 
-
-
     }
-
-
 }
