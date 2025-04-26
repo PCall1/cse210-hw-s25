@@ -9,7 +9,7 @@ class Program
         // Prompt the user for their percentage
         Console.WriteLine("Welcome to the letter grade calculator!");
         Console.Write("Please enter your percentage (00.00) to see your letter grade. ");
-        float pg = float.Parse(Console.ReadLine()); // Percentage grade (pg) variable
+        float pg = float.Parse(Console.ReadLine()); // Percent grade (pg) variable
         string lg;// Letter grade (lg) variable
         float ec; // Extra credit (ec) variable
 
