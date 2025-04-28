@@ -5,10 +5,13 @@ class Program
 {
     static void Main(string[] args)
     {
+        /*
         //get number from user
         Console.Write("Enter a number between 1 and 100: ");
         string intput = Console.ReadLine();
         int number = int.Parse(intput);
+        */
+
 
         // generate random number between 1 and 100
         Random random = new Random();
@@ -17,37 +20,30 @@ class Program
 
 
         int guess = -1; //
+        Console.Write("Guess a number between 1 and 100: "); // ask user for guess
+
 
         // loop until guess is correct
-        while (guess != number)
+        while (guess != rndMagicNumber)
         {
 
-            // ask user for guess
-            Console.Write("Guess a number between 1 and 100: ");
+            // accept guess from user
             string guessInput = Console.ReadLine();
             guess = int.Parse(guessInput);
 
                 // check if guess is correct
-                if (guess < number)
+                if (guess < rndMagicNumber)
                 {
-                    Console.WriteLine("Higher!");
+                    Console.Write("Higher! \nGuess again: ");
                 }
-                else if (guess > number)
+                else if (guess > rndMagicNumber)
                 {
-                    Console.WriteLine("Lower!");
+                    Console.Write("Lower! \nGuess again: ");
                 }
-                else if (guess == number)
+                else if (guess == rndMagicNumber)
                 {
                     Console.WriteLine("You got it!");
                 }
-
-
-            
-
-            
-
-
-
         }
         
     }
