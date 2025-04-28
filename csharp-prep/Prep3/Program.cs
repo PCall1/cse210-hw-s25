@@ -19,9 +19,9 @@ class Program
 
 
 
-        int guess = -1; //
+        int guess = -1; // default out of range
         Console.Write("Guess a number between 1 and 100: "); // ask user for guess
-        int guesses = 1;
+        int guesses = 0;
 
 
         // loop until guess is correct
