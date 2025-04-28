@@ -21,12 +21,13 @@ class Program
 
         int guess = -1; //
         Console.Write("Guess a number between 1 and 100: "); // ask user for guess
+        int guesses = 1;
 
 
         // loop until guess is correct
         while (guess != rndMagicNumber)
         {
-
+            
             // accept guess from user
             string guessInput = Console.ReadLine();
             guess = int.Parse(guessInput);
@@ -44,7 +45,8 @@ class Program
                 {
                     Console.WriteLine("You got it!");
                 }
+            guesses++;
         }
-        
+        Console.WriteLine($"It took you {guesses} guesses!"); // print number of guesses, stretch challenge
     }
 }
