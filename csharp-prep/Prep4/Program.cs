@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq; // Good practice to include this for Max() function, I gues
+using System.Linq; // Good practice to include this for Max() function
 
 class Program
 {
