@@ -1,0 +1,26 @@
+
+
+Abstraction involves removing the technicalities of a function from mind, meaning that I can create a class
+with attributes and methods that I can call, as simply as if it was a variable. Then I can call specific 
+attributes from it with Class._attribute format. I can also call methods from the class with similar format;
+Class.Method(). This allows me to use code by typing only one line instead of recreating the hundreds or 
+thousands of lines of code hidden within the class.
+
+Major benefits are that the code is hidden, therefore once I know it works, I don't ever have to touch it. I   
+don't need to worry about errors in retyping the code. Another major benefit of abstraction is that I can 
+create my own classes for my own application. The separation of classes from the body of the program creates 
+better organization, and code that is easier to modify.
+
+One example of abstraction is the print() function in Python. This is a class with thousands of lines of code,
+but all I have to worry about is calling the class and entering the inputs I want it to work with.
+
+From my journal Program: 
+Entry newEntry = new();
+newEntry.RandomPrompt();
+newEntry.GetResponse();
+journal.AddEntry(newEntry);
+
+This code is used in menu when the user chooses '1'. These four lines will access the Entry class and use 
+two individual methods to get a random prompt, and read the users response into an attribute that I used later. 
+This then looks at a method in the Journal class that saves the entry to a list of entries that we can easily 
+access later when needed.
