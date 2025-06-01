@@ -1,0 +1,68 @@
+Library:
+Behaviors:
+Holds list of all scriptures
+UserChoice():void   Asks the user to choose what scripture they would like to memorize,
+then creates instance of scripture class to store that scripture.
+ClearConsole():void   Clears the console when scripture is ready to be displayed.
+
+Attributes:
+Parallel lists, _allReferences and _allScriptures, hold each reference and the 
+corresponding passage. The reference and corresponding passage have the same index.
+
+
+
+Scripture:
+Behaviors:
+Scripture(string, string):void   the constructor will break the verse string into a list 
+of words to be stored in _listOfWords attribute, and save the other string in _reference.
+The strings from lists in Library class will be passed in.
+Display():void   will show the scripture for the user to read with each hidden word blanked out.
+HideWords():void   calls the word class to decide whether a word is hidden or not, and 
+return a list of words whether shown or blanked out.
+HiddenCompletely():Boolean   simply checks to see if all words are hidden, if all 
+are hidden the program ends.
+
+Attributes:
+This class stores the scripture reference as _reference, and a list of words in the 
+passage as _listOfWords.
+
+
+
+Word:
+Behaviors:
+IsHidden():boolean   returns to the scripture class whether a word is hidden or not.
+ShowHide():void   decides randomly if the word will be hidden or shown.
+Display():string   returns the value of the word, whether the word, or a string of underscores.
+Word(string):   the constructor will get one word of the passage from scripture and set
+the Boolean attribute _isHidden as NULL initially.
+
+Attributes:
+_isHidden:Boolean   stores whether this word is hidden or shown.
+_text:string   stores one word of the scripture passage.
+
+
+
+Constructors:
+Library():void   Doesn't need to do much aside from clear memory so no random values get
+in the way in the program.
+
+Scripture(string, string):void   the constructor will break the verse string into a list 
+of words to be stored in _listOfWords attribute, and save the other string in _reference.
+The strings from lists in Library class will be passed in.
+
+Word(string):   the constructor will get one word of the passage from scripture and set
+the Boolean attribute _isHidden as NULL initially.
+
+
+
+Interaction:
+The Library will function as the library of scriptures and metaphorically we as the user 
+will go to the library where we can see and choose from the available scriptures.
+When the user chooses a scripture, an instance of scripture will be created that contains 
+the reference and passage of the scripture. Inside the scripture class, the verse will be 
+broken up into a list of words. Now an instance of the Word class will be created for each 
+word. The word class will decide what to hide, and return respective values. It will also 
+inform the scripture class of each word that is hidden. The scripture class will use this 
+information to reconstruct the verse with removed words and display it to the user. 
+Scripture will also keep track of when all words become hidden. Scripture will return a 
+value of whether all words are hidden yet, so the Program knows when to end.
