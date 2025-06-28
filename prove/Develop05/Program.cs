@@ -1,6 +1,16 @@
 using System;
 using System.Net.NetworkInformation;
 
+/// Stretch Challenge
+/// 
+/// I handled an error from loading goals. Previously, if the user loaded
+/// goals from the same file multiple times, it would load the goals twice
+/// and load the points again, adding them to the current points. 
+/// I changed the conditions to handle this so that a given file can only 
+/// be loaded once. This allows multiple files to be loaded without issue,
+/// and prevents double loading of points or goals. 
+
+
 class Program
 {
     static int totalPoints = 0;
