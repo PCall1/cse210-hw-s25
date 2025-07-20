@@ -19,16 +19,14 @@ class DatingProspect : Contact
         _history = new List<(string, DateTime)>();
     }
 
+    // Edit DatingProspect-specific details
     public void EditDatingDetails(string mutualInterests, string interestLevel, bool stillTalking)
     {
+        Console.WriteLine(_mutualInterests);
+        Console.WriteLine(_interestLevel);
         _mutualInterests = mutualInterests;
         _interestLevel = interestLevel;
         _stillTalking = stillTalking;
-    }
-
-    public void AddInteraction(string description, DateTime date)
-    {
-        _history.Add((description, date));
     }
 
     public override string GetContactDetails()

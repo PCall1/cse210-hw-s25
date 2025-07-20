@@ -17,22 +17,12 @@ class ContactGroup
         set { _groupName = value; }
     }
 
-    public List<Contact> Contacts
-    {
-        get { return _contacts; } 
-    }
-
     public void AddContact(Contact contact)
     {
         if (contact != null && !_contacts.Contains(contact))
         {
             _contacts.Add(contact);
         }
-    }
-
-    public void RemoveContact(Contact contact)
-    {
-        _contacts.Remove(contact);
     }
 
     public string ListContacts()
@@ -43,7 +33,7 @@ class ContactGroup
         string result = $"Contacts in '{_groupName}':\n";
         foreach (Contact contact in _contacts)
         {
-            result += contact.GetContactDetails() + "\n---\n";
+            result += $"{contact.PersonContact.Name}\n";
         }
         return result;
     }

@@ -1,20 +1,7 @@
 using System;
 
 /// <summary>
-/// I have a project with most things working well. I have written basic code for each 
-/// class and it's enough to function. The program class is not finished yet, but it
-/// does have most of what it needs. It can create contacts, create groups, view groups, 
-/// and search for contacts. I've done my best to have code in classes be relevant to only 
-/// the class itself, to follow the idea of encapsulation, along with private attributes
-/// as often as possible; though I do have a few protected attributes where relevant. I've 
-/// got the contact class coded with child classes inheriting from it certain attributes and 
-/// methods. Meanwhile, most code is in the child classes because they store unique information.
-/// This will mostly match my class diagram, however, as I coded it, I realized several 
-/// methods that could be rearranged or removed, and some to be added; so it will be different.
-/// I also made a number of errors in the class diagram which are fixed in the program. I 
-/// haven't added abilities to edit contacts or groups, I would also like to add the ability to 
-/// save to a file, and load from it. I also learned about how to make ui a little but more friendly
-/// with "press enter to continue" functionality.
+///
 /// </summary>
 
 
@@ -22,17 +9,25 @@ class Program
 {
     static void Main(string[] args)
     {
-        ContactManager manager = new ContactManager();
+        const string saveFile = "contacts.json";
+        ContactManager manager = ContactManager.LoadFromFile(saveFile);
+
         bool running = true;
+
+        // add code to load contacts from a file before user interacts with program
+        // this should be able to rebuild contacts list and groups from where the program last terminated
 
         while (running)
         {
             Console.WriteLine("Contact Manager");
             Console.WriteLine("1) Create Contact");
-            Console.WriteLine("2) Search Contact");
+            Console.WriteLine("2) Search Contacts");
             Console.WriteLine("3) View Groups");
             Console.WriteLine("4) Create Group");
-            //Console.WriteLine("5) Edit Contact");
+            Console.WriteLine("5) Edit Contact");
+            Console.WriteLine("6) Add Contact to Group");
+            Console.WriteLine("7) View All Contacts"); // implement code, ALPHABETIC ORDER
+
             Console.WriteLine("x) Exit");
             Console.Write("Select an option: ");
             string choice = Console.ReadLine();
@@ -51,9 +46,20 @@ class Program
                 case "4":
                     CreateGroup(manager);
                     break;
+                case "5":
+                    EditContact(manager);
+                    break;
+                case "6":
+                    AddContactToGroup(manager);
+                    break;
+                case "7":
+                    DisplayContactNames(manager);
+                    break;
                 case "x":
+                    manager.SaveToFile(saveFile);
+                    Console.WriteLine("Contacts saved.");
+                    Console.WriteLine("Exiting the program...");
                     running = false;
-                    Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Invalid option. Please enter a valid option");
@@ -65,7 +71,6 @@ class Program
 
     static void CreateContact(ContactManager manager)
     {
-        // Prompt for contact type and info, then add to manager
         Console.WriteLine("Select contact type:");
         Console.WriteLine("1) Family Member");
         Console.WriteLine("2) Coworker");
@@ -80,7 +85,7 @@ class Program
             return;
         }
 
-        // Gather PersonInfo
+        // General fields for PersonInfo
         Console.Write("Name: ");
         string name = Console.ReadLine();
         Console.Write("Phone Number: ");
@@ -93,50 +98,58 @@ class Program
         DateTime birthday = DateTime.TryParse(Console.ReadLine(), out DateTime bday) ? bday : DateTime.MinValue;
         PersonInfo info = new PersonInfo(name, phone, email, address, birthday);
 
-        Contact contact;
+        // Gather unique fields for each contact type
+        string relationship = null,
+        company = null,
+        job = null,
+        school = null,
+        major = null,
+        mutualClasses = null,
+        interests = null,
+        interestLevel = null;
+        int gradYear = 0;
+        bool stillTalking = false;
+
         switch (type)
         {
             case "1":
                 Console.Write("Relationship: ");
-                string relationship = Console.ReadLine();
-                contact = new FamilyMember(info, relationship);
+                relationship = Console.ReadLine();
                 break;
             case "2":
                 Console.Write("Company: ");
-                string company = Console.ReadLine();
+                company = Console.ReadLine();
                 Console.Write("Job Position: ");
-                string job = Console.ReadLine();
-                contact = new Coworker(info, company, job);
+                job = Console.ReadLine();
                 break;
             case "3":
                 Console.Write("School Name: ");
-                string school = Console.ReadLine();
+                school = Console.ReadLine();
                 Console.Write("Major: ");
-                string major = Console.ReadLine();
+                major = Console.ReadLine();
                 Console.Write("Graduation Year: ");
-                int gradYear = int.TryParse(Console.ReadLine(), out int gy) ? gy : 0;
+                gradYear = int.TryParse(Console.ReadLine(), out int gy) ? gy : 0;
                 Console.Write("Mutual Classes: ");
-                string mutualClasses = Console.ReadLine();
-                contact = new SchoolMate(info, school, major, gradYear, mutualClasses);
+                mutualClasses = Console.ReadLine();
                 break;
             case "4":
                 Console.Write("Mutual Interests: ");
-                string interests = Console.ReadLine();
+                interests = Console.ReadLine();
                 Console.Write("Interest Level: ");
-                string interestLevel = Console.ReadLine();
+                interestLevel = Console.ReadLine();
                 Console.Write("Still Talking (true/false): ");
-                bool stillTalking = bool.TryParse(Console.ReadLine(), out bool st) ? st : false;
-                contact = new DatingProspect(info, interests, interestLevel, stillTalking);
+                stillTalking = bool.TryParse(Console.ReadLine(), out bool st) ? st : false;
                 break;
-            default:
-                Console.WriteLine("Invalid contact type.");
-                return;
         }
 
-        manager.AddContact(contact);
-        Console.WriteLine("Contact added! Press Enter to continue...");
+        Contact contact = manager.CreateAndAddContact(type, info, relationship, company, job, school, major, gradYear, mutualClasses, interests, interestLevel, stillTalking);
+        if (contact != null)
+            Console.WriteLine("Contact added! Press Enter to continue...");
+        else
+            Console.WriteLine("Failed to add contact. Press Enter to continue...");
         Console.ReadLine();
     }
+
 
     static void SearchContact(ContactManager manager)
     {
@@ -153,6 +166,68 @@ class Program
             Console.WriteLine("Contact not found.");
         }
         Console.WriteLine("Press Enter to continue...");
+        Console.ReadLine();
+    }
+
+    static void EditContact(ContactManager manager)
+    {
+        Console.Write("Enter contact name to edit: ");
+        string name = Console.ReadLine();
+        Contact contact = manager.FindContactByName(name);
+        if (contact != null)
+        {
+            Console.WriteLine("Editing contact details:");
+            Console.Write("New Name: ");
+            string newName = Console.ReadLine();
+            Console.Write("New Phone Number: ");
+            string newPhone = Console.ReadLine();
+            Console.Write("New Email: ");
+            string newEmail = Console.ReadLine();
+            Console.Write("New Address: ");
+            string newAddress = Console.ReadLine();
+            Console.Write("New Birthday (MM/DD/YYYY): ");
+            DateTime newBirthday = DateTime.TryParse(Console.ReadLine(), out DateTime bday) ? bday : DateTime.MinValue;
+
+            contact.EditContactInfo(newName, newPhone, newEmail, newAddress, newBirthday);
+
+            // Edit unique fields for Coworker, SchoolMate, DatingProspect
+            if (contact is Coworker coworker)
+            {
+                Console.Write("New Company: ");
+                string newCompany = Console.ReadLine();
+                Console.Write("New Job Position: ");
+                string newJob = Console.ReadLine();
+                coworker.EditCoworkerDetails(newCompany, newJob);
+            }
+            else if (contact is SchoolMate schoolMate)
+            {
+                Console.Write("New School Name: ");
+                string newSchool = Console.ReadLine();
+                Console.Write("New Major: ");
+                string newMajor = Console.ReadLine();
+                Console.Write("New Graduation Year: ");
+                int newGradYear = int.TryParse(Console.ReadLine(), out int gy) ? gy : 0;
+                Console.Write("New Mutual Classes: ");
+                string newMutualClasses = Console.ReadLine();
+                schoolMate.EditSchoolMateDetails(newSchool, newMajor, newGradYear, newMutualClasses);
+            }
+            else if (contact is DatingProspect dating)
+            {
+                Console.Write("New Mutual Interests: ");
+                string newInterests = Console.ReadLine();
+                Console.Write("New Interest Level: ");
+                string newInterestLevel = Console.ReadLine();
+                Console.Write("Still Talking (true/false): ");
+                bool newStillTalking = bool.TryParse(Console.ReadLine(), out bool st) ? st : false;
+                dating.EditDatingDetails(newInterests, newInterestLevel, newStillTalking);
+            }
+
+            Console.WriteLine("Contact updated! Press Enter to continue...");
+        }
+        else
+        {
+            Console.WriteLine("Contact not found.");
+        }
         Console.ReadLine();
     }
 
@@ -180,7 +255,50 @@ class Program
         string groupName = Console.ReadLine();
         ContactGroup group = new ContactGroup(groupName);
         manager.AddGroup(group);
-        Console.WriteLine($"Group '{groupName}' created! Press Enter to continue...");
+        Console.WriteLine($"Group '{groupName}' created. Press Enter to continue...");
+        Console.ReadLine();
+    }
+
+    static void AddContactToGroup(ContactManager manager)
+    {
+        Console.Write("Enter group name: ");
+        string groupName = Console.ReadLine();
+        ContactGroup group = manager.FindGroup(groupName);
+        if (group == null)
+        {
+            Console.WriteLine("Group not found.");
+            Console.WriteLine("Press Enter to continue...");
+            Console.ReadLine();
+            return;
+        }
+
+        Console.Write("Enter contact name to add: ");
+        string contactName = Console.ReadLine();
+        Contact contact = manager.FindContactByName(contactName); // "...ByName" inculded because if expanded, I could also find contacts by phonenumber or other attributes.
+        if (contact != null)
+        {
+            group.AddContact(contact);
+            Console.WriteLine($"Contact '{contactName}' added to group '{groupName}'.");
+        }
+        else
+        {
+            Console.WriteLine("Contact not found.");
+        }
+        Console.WriteLine("Press Enter to continue...");
+        Console.ReadLine();
+    }
+    
+    static void DisplayContactNames(ContactManager manager)
+    {
+
+        string names = manager.ListAllContacts();
+        if (string.IsNullOrEmpty(names))
+        {
+            Console.WriteLine("No contacts available.");
+            return;
+        }
+        Console.WriteLine(names);
+        Console.WriteLine("Press Enter to continue...");
         Console.ReadLine();
     }
 }

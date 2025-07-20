@@ -18,7 +18,7 @@ class SchoolMate : Contact
     }
 
 
-    //Methods
+    // Edit SchoolMate-specific details
     public void EditSchoolMateDetails(string schoolName, string major, int gradYear, string mutualClasses)
     {
         _schoolName = schoolName;

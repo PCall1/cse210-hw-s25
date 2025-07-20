@@ -12,23 +12,6 @@ class PersonInfo
     private DateTime _birthday;
 
 
-    // Constructors
-    public PersonInfo(string name)
-    {
-        _name = name;
-        _phoneNumber = string.Empty;
-        _email = string.Empty;
-        _address = string.Empty;
-        _birthday = DateTime.MinValue;
-    }
-    public PersonInfo(string name, string phone, string email, string address)
-    {
-        _name = name;
-        _phoneNumber = phone;
-        _email = email;
-        _address = address;
-        _birthday = DateTime.MinValue;
-    }
     public PersonInfo(string name, string phone, string email, string address, DateTime birthday)
     {
         _name = name;

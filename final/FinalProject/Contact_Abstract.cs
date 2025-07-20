@@ -16,10 +16,10 @@ abstract class Contact
     {
         List<string> details = new List<string>
         {
-            $"Name:    {_personContact.Name}",
-            $"Phone:   {_personContact.PhoneNumber}",
-            $"Email:   {_personContact.Email}",
-            $"Address: {_personContact.Address}",
+            $"Name:     {_personContact.Name}",
+            $"Phone:    {_personContact.PhoneNumber}",
+            $"Email:    {_personContact.Email}",
+            $"Address:  {_personContact.Address}",
             $"Birthday: {_personContact.Birthday.ToShortDateString()}"
         };
         return string.Join("\n", details);
